@@ -41,25 +41,6 @@ source venv/bin/activate  # Linux/Mac
 venv\Scripts\activate     # Windows
 ~~~
 
-- Instalar dependencias
-~~~bash
-pip install -r requirements.txt
-~~~
-
-> Si no tienes el archivo `requirements.txt`, puedes instalar manualmente:
-
-~~~txt
-flasgger==0.9.7.1
-Flask==3.1.1
-flask-cors==6.0.0
-joblib==1.5.0
-marshmallow==4.0.0
-numpy==2.0.2
-pandas==2.2.2
-scikit_learn==1.6.1
-xgboost==2.1.4
-~~~
-
 - Obtener los archivos de modelo `.pkl`
 
 Debes acceder al siguiente enlace de Colab para generar o descargar los modelos entrenados:
@@ -72,14 +53,33 @@ Esta lo que hara es demorar mucho el proceso que ya esta al final en "Toma de Re
 Una vez descargados, colócalos en la carpeta (creala en la raiz con este mismo nombre)`models_pickle/` con los siguientes nombres exactos:
 
 models_pickle/
-  ├── GradientBoosting.pkl
-  ├── MplRegressor.pkl
-  ├── RandomForest.pkl
-  ├── XGBoost.pkl
-  ├── columnas_modelo.pkl
-  ├── scaler_X.pkl
-  └── scaler_y.pkl
+  ├── GradientBoosting.pkl  
+  ├── MplRegressor.pkl  
+  ├── RandomForest.pkl  
+  ├── XGBoost.pkl  
+  ├── columnas_modelo.pkl  
+  ├── scaler_X.pkl  
+  └── scaler_y.pkl  
 > ⚠️ **Importante:** Si estos archivos no están presentes en la carpeta `models_pickle`, la API lanzará errores al momento de realizar predicciones.
+
+- Instalar dependencias
+~~~bash
+pip install -r requirements.txt
+~~~
+
+> Si no tienes el archivo `requirements.txt`, puedes instalar manualmente:
+
+~~~txt
+Flask==3.1.1
+flasgger==0.9.7.1
+flask-cors==6.0.0
+joblib==1.5.1
+marshmallow==4.0.0
+numpy==2.0.2
+pandas==2.2.3
+scikit-learn===1.6.1
+xgboost==3.0.2
+~~~
 
 - Configurar el archivo `app.py` (si aplica)
 - Ejecutar la aplicación

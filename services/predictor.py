@@ -2,18 +2,11 @@ import os
 import pandas as pd
 import joblib
 import pickle
-import sklearn
 import xgboost as xgb
-import flasgger
-import flask_cors
-import marshmallow
+
  # version sklearn:
 from sklearn import __version__ as sklearn_version
 from xgboost import __version__ as xgb_version
-
-# imprimir las versiones de las librerías
-
-
 
 # ===============================
 # Configuración y constantes
@@ -23,14 +16,7 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 MODELS_PATH = os.path.join(BASE_DIR, "models_pickle")
 CACHED_MODELS = {}
 
-CATEGORICAL_COLUMNS = [
-    "mother_education_level", "father_education_level", "cognitive_ability", "general_health_status",
-    "hand_grip_ability", "self_care_ability", "speech_ability", "mobility_ability",
-    "hearing_ability", "vision_ability", "mother_lives_household", "father_lives_household",
-    "health_insurance_affiliation", "gender", "health_issue_last_30_days", "has_chronic_disease",
-    "student_health_insurance", "eps_complementary_health_plan", "other_health_services",
-    "private_health_insurance", "hospitalization_surgery_policy"
-]
+CATEGORICAL_COLUMNS = ["mother_education_level", "father_education_level", "cognitive_ability", "general_health_status","hand_grip_ability", "self_care_ability", "speech_ability", "mobility_ability","hearing_ability", "vision_ability", "mother_lives_household", "father_lives_household","health_insurance_affiliation", "gender", "health_issue_last_30_days", "has_chronic_disease","student_health_insurance", "eps_complementary_health_plan", "other_health_services","private_health_insurance", "hospitalization_surgery_policy"]
 
 COLUMNS_FILE = os.path.join(MODELS_PATH, "columnas_modelo.pkl")
 SCALER_FILE = os.path.join(MODELS_PATH, "scaler_X.pkl")

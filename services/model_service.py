@@ -1,4 +1,3 @@
-import pickle
 import numpy as np
 
 # Cargar el modelo guardado
