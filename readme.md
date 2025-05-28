@@ -52,7 +52,7 @@ Esta lo que hara es demorar mucho el proceso que ya esta al final en "Toma de Re
 
 Una vez descargados, colócalos en la carpeta (creala en la raiz con este mismo nombre)`models_pickle/` con los siguientes nombres exactos:
 
-models_pickle/
+models_pickle/  
   ├── GradientBoosting.pkl  
   ├── MplRegressor.pkl  
   ├── RandomForest.pkl  
