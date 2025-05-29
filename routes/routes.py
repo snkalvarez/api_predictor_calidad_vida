@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from marshmallow import ValidationError
 from models.schemas import PrediccionSchema
 from services.predictor import predecir_calidad_vida
+from services.tablacomparativa import cargar_modelo
 
 main = Blueprint('main', __name__)
 
@@ -72,3 +73,17 @@ def predict():
             "error": "Error interno del servidor", 
             "details": str(e)
         }), 500
+
+@main.route("/datacomparativa", methods=["GET"])
+def dataPrediciva():
+    """
+    Obtenemos los datos para poder calificar los algorimos segun su rendimiento
+    ---
+    tags:
+      - DatosComparativos:
+    responses:
+      200:
+        description: Json con todos sus valores
+    """
+    data = cargar_modelo()
+    return jsonify({"mensaje": "ok" , "data":data})
