@@ -59,9 +59,10 @@ def predict():
         return jsonify({
             "message": "Validación exitosa", 
             "modelo": model_name, 
-            "prediccion": float(resultado)
+            "prediccion": resultado["prediccion"],
+            "importancia": resultado["importancia"]
         }), 200
-        
+
     except ValidationError as err:
         return jsonify({
             "error": "Error de validación", 

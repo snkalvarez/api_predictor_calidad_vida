@@ -75,12 +75,25 @@ def procesar_datos(datos: dict) -> pd.DataFrame:
 # Predicción
 # ===============================
 
-def predecir_calidad_vida(datos: dict, modelo_nombre: str) -> float:
+def predecir_calidad_vida(datos: dict, modelo_nombre: str) -> dict:
     """
     Predice la calidad de vida a partir de los datos ingresados y el modelo especificado.
+    Retorna la predicción y la importancia de variables (si aplica).
     """
     modelo = cargar_modelo(modelo_nombre)
     datos_preprocesados = procesar_datos(datos)
     prediccion = modelo.predict(datos_preprocesados)
 
-    return float(prediccion[0])
+    importances = None
+    feature_names = datos_preprocesados.columns.tolist()
+
+    if hasattr(modelo, "feature_importances_"):
+        importances = {
+            feature: float(importance)  # ✅ convertimos a float nativo
+            for feature, importance in zip(feature_names, modelo.feature_importances_)
+        }
+
+    return {
+        "prediccion": float(prediccion[0]),  # ✅ también aquí
+        "importancia": importances
+    }
