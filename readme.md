@@ -54,7 +54,7 @@ Una vez descargados, colócalos en la carpeta (creala en la raiz con este mismo 
 
 models_pickle/  
   ├── GradientBoosting.pkl  
-  ├── MplRegressor.pkl  
+  ├── MlpRegressor.pkl  
   ├── RandomForest.pkl  
   ├── XGBoost.pkl  
   ├── columnas_modelo.pkl  

@@ -3,6 +3,8 @@ import pandas as pd
 import joblib
 import pickle
 import xgboost as xgb
+# importa la funcion cargar_importancias que esta en el archivo importancias.py
+from services.importancias import cargar_importancias
 
  # version sklearn:
 from sklearn import __version__ as sklearn_version
@@ -84,16 +86,24 @@ def predecir_calidad_vida(datos: dict, modelo_nombre: str) -> dict:
     datos_preprocesados = procesar_datos(datos)
     prediccion = modelo.predict(datos_preprocesados)
 
-    importances = None
-    feature_names = datos_preprocesados.columns.tolist()
-
-    if hasattr(modelo, "feature_importances_"):
-        importances = {
-            feature: float(importance)  # ✅ convertimos a float nativo
-            for feature, importance in zip(feature_names, modelo.feature_importances_)
-        }
-
+    importances = cargar_importancias()
+    
     return {
         "prediccion": float(prediccion[0]),  # ✅ también aquí
-        "importancia": importances
+        "importancia": importances.get(modelo_nombre, {})
     }
+
+
+def obtener_variables_test_pred ():
+    """
+    Obtiene las variables de test para la predicción.
+    Retorna un DataFrame con las variables de test.
+    """
+    data = os.path.join(BASE_DIR, "datapkl", "datosTrain.pkl")
+    if not os.path.exists(data):
+        raise FileNotFoundError(f"Archivo de datos de test no encontrado en '{data}'")
+    
+    with open(data, "rb") as f:
+        return pickle.load(f)
+
+

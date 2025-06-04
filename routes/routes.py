@@ -1,8 +1,9 @@
 from flask import Blueprint, jsonify, request
 from marshmallow import ValidationError
 from models.schemas import PrediccionSchema
-from services.predictor import predecir_calidad_vida
+from services.predictor import predecir_calidad_vida, obtener_variables_test_pred
 from services.tablacomparativa import cargar_modelo
+from services.importancias import cargar_importancias
 
 main = Blueprint('main', __name__)
 
@@ -33,7 +34,7 @@ def predict():
         in: query
         type: string
         required: true
-        description: Nombre del modelo a usar ( RandomForest, GradientBoosting, XGBoost, MplRegressor )
+        description: Nombre del modelo a usar ( RandomForest, GradientBoosting, XGBoost, MlpRegressor )
       - in: body
         name: input
         required: true
@@ -88,3 +89,34 @@ def dataPrediciva():
     """
     data = cargar_modelo()
     return jsonify({"mensaje": "ok" , "data":data})
+
+# get para obtener las importances .pkl
+@main.route("/importances", methods=["GET"])
+def importances():
+    """
+    Obtenemos las importancias de los modelos
+    ---
+    tags:
+      - Importancias
+    responses:
+      200:
+        description: Json con las importancias de los modelos
+    """
+    importances = cargar_importancias()
+    return jsonify({"mensaje": "ok", "importances": importances})
+
+
+# get para obterner la datapkl
+@main.route("/trainAndpredict", methods=["GET"])
+def data():
+    """
+    Obtenemos los datos con los que se entrenó el modelo y sus predicciones
+    ---
+    tags:
+      - Datos
+    responses:
+      200:
+        description: Json con los datos de entrada
+    """
+    data = obtener_variables_test_pred()
+    return jsonify({"mensaje": "ok", "data": data})
