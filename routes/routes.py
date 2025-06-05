@@ -4,6 +4,9 @@ from models.schemas import PrediccionSchema
 from services.predictor import predecir_calidad_vida, obtener_variables_test_pred
 from services.tablacomparativa import cargar_modelo
 from services.importancias import cargar_importancias
+import plotly.express as px
+import pandas as pd
+import os
 
 main = Blueprint('main', __name__)
 
@@ -105,7 +108,6 @@ def importances():
     importances = cargar_importancias()
     return jsonify({"mensaje": "ok", "importances": importances})
 
-
 # get para obterner la datapkl
 @main.route("/trainAndpredict", methods=["GET"])
 def data():
@@ -120,3 +122,39 @@ def data():
     """
     data = obtener_variables_test_pred()
     return jsonify({"mensaje": "ok", "data": data})
+
+@main.route('/plot-data')
+def plot_data():
+    """
+    Endpoint para obtener los datos de la gráfica
+    ---
+    tags:
+      - Gráficas
+    responses:
+      200:
+        description: Json con los datos de la gráfica
+    """
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Sube a raíz del proyecto
+    csv_path = os.path.join(base_dir, "datacsv", "resultadosTrainPred.csv")
+    df = pd.read_csv(csv_path)
+    try:
+        df = pd.read_csv(csv_path)
+    except FileNotFoundError:
+        return jsonify({"error": f"No se encontró el archivo en {csv_path}"}), 404
+
+    if not {"y_real", "y_predicho"}.issubset(df.columns):
+        return jsonify({"error": "CSV debe contener columnas 'y_real' y 'y_predicho'"}), 400
+
+    fig = px.scatter(df, x="y_real", y="y_predicho",
+                     title="Random Forest - y real vs y predicho",
+                     labels={"y_real": "Valor real", "y_predicho": "Valor predicho"},
+                     opacity=0.6)
+
+    fig.add_shape(
+        type="line",
+        x0=df["y_real"].min(), y0=df["y_real"].min(),
+        x1=df["y_real"].max(), y1=df["y_real"].max(),
+        line=dict(color="Red", dash="dash"),
+    )
+
+    return jsonify(fig.to_dict())
