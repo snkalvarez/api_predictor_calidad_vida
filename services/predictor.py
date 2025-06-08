@@ -3,8 +3,7 @@ import pandas as pd
 import joblib
 import pickle
 import xgboost as xgb
-# importa la funcion cargar_importancias que esta en el archivo importancias.py
-from services.importancias import cargar_importancias
+import json
 
  # version sklearn:
 from sklearn import __version__ as sklearn_version
@@ -15,13 +14,13 @@ from xgboost import __version__ as xgb_version
 # ===============================
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-MODELS_PATH = os.path.join(BASE_DIR, "models_pickle")
+MODELS_PATH = os.path.join(BASE_DIR, "models")
 CACHED_MODELS = {}
 
 CATEGORICAL_COLUMNS = ["mother_education_level", "father_education_level", "cognitive_ability", "general_health_status","hand_grip_ability", "self_care_ability", "speech_ability", "mobility_ability","hearing_ability", "vision_ability", "mother_lives_household", "father_lives_household","health_insurance_affiliation", "gender", "health_issue_last_30_days", "has_chronic_disease","student_health_insurance", "eps_complementary_health_plan", "other_health_services","private_health_insurance", "hospitalization_surgery_policy"]
 
-COLUMNS_FILE = os.path.join(MODELS_PATH, "columnas_modelo.pkl")
-SCALER_FILE = os.path.join(MODELS_PATH, "scaler_X.pkl")
+COLUMNS_FILE = os.path.join(MODELS_PATH, "columnas_usadas.json")
+SCALER_FILE = os.path.join(MODELS_PATH, "scaler_X.joblib")
 
 # ===============================
 # Utilidades de Carga
@@ -30,7 +29,7 @@ SCALER_FILE = os.path.join(MODELS_PATH, "scaler_X.pkl")
 def cargar_modelo(nombre: str):
     """Carga y cachea el modelo ML."""
     if nombre not in CACHED_MODELS:
-        modelo_path = os.path.join(MODELS_PATH, f"{nombre}.pkl")
+        modelo_path = os.path.join(MODELS_PATH, f"{nombre}.joblib")
         if not os.path.exists(modelo_path):
             raise FileNotFoundError(f"Modelo '{nombre}' no encontrado en '{modelo_path}'")
         CACHED_MODELS[nombre] = joblib.load(modelo_path)
@@ -48,8 +47,9 @@ def cargar_columnas(path: str = COLUMNS_FILE):
     """Carga las columnas esperadas por el modelo."""
     if not os.path.exists(path):
         raise FileNotFoundError(f"Archivo de columnas no encontrado en '{path}'")
-    with open(path, "rb") as f:
-        return pickle.load(f)
+    with open(path, "r") as f:
+        columnas = json.load(f)
+    return columnas
 
 # ===============================
 # Preprocesamiento
@@ -71,6 +71,8 @@ def procesar_datos(datos: dict) -> pd.DataFrame:
     scaler = cargar_scaler()
     df_scaled = pd.DataFrame(scaler.transform(df), columns=columnas_modelo)
 
+    # print("df_scaled después de escalar:" , df_scaled)
+
     return df_scaled
 
 # ===============================
@@ -85,14 +87,11 @@ def predecir_calidad_vida(datos: dict, modelo_nombre: str) -> dict:
     modelo = cargar_modelo(modelo_nombre)
     datos_preprocesados = procesar_datos(datos)
     prediccion = modelo.predict(datos_preprocesados)
-
-    importances = cargar_importancias()
     
     return {
         "prediccion": float(prediccion[0]),  # ✅ también aquí
-        "importancia": importances.get(modelo_nombre, {})
+        "importancia": {}
     }
-
 
 def obtener_variables_test_pred ():
     """

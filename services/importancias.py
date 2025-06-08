@@ -1,6 +1,7 @@
 import os
 import pickle
 import joblib
+import pandas as pd
 
 CACHED_MODELS = {}
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -37,10 +38,11 @@ def guardar_importancias_modelos():
 # metodo para retornar las importances en un json
 def cargar_importancias():
     """Carga las importancias de los modelos desde un archivo pickle."""
-    importances_path = os.path.join(BASE_DIR, "models", "importances.pkl")
+    importances_path = os.path.join(BASE_DIR, "resultados", "resultadosRealPredX3_gbr.csv")
     if not os.path.exists(importances_path):
         guardar_importancias_modelos()
+
+    df = pd.read_csv(importances_path)
+    importances = df.to_dict(orient='records') 
     
-    with open(importances_path, "rb") as f:
-        return pickle.load(f)
-    
+    return importances # Convertir DataFrame a lista de diccionarios

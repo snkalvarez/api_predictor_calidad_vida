@@ -60,7 +60,7 @@ models_pickle/
   ├── columnas_modelo.pkl  
   ├── scaler_X.pkl  
   └── scaler_y.pkl  
-> ⚠️ **Importante:** Si estos archivos no están presentes en la carpeta `models_pickle`, la API lanzará errores al momento de realizar predicciones.
+> ⚠️ **Importante:** Si estos archivos no están presentes en la carpeta `models_pickle`, la API lanzará errores al momento de realizar predicciones. Se debe tener en cuenta las versiones tambien deben ser las mismas al crear los .pkl que los que va a ejecutar el API.
 
 - Instalar dependencias
 ~~~bash

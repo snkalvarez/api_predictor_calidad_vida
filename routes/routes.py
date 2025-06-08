@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, request
 from marshmallow import ValidationError
-from models.schemas import PrediccionSchema
+from config.schemas import PrediccionSchema
 from services.predictor import predecir_calidad_vida, obtener_variables_test_pred
-from services.tablacomparativa import cargar_modelo
+from services.tablacomparativa import read_resultados_tablacomparativa
 from services.importancias import cargar_importancias
 import plotly.express as px
 import pandas as pd
@@ -90,7 +90,7 @@ def dataPrediciva():
       200:
         description: Json con todos sus valores
     """
-    data = cargar_modelo()
+    data = read_resultados_tablacomparativa()
     return jsonify({"mensaje": "ok" , "data":data})
 
 # get para obtener las importances .pkl
