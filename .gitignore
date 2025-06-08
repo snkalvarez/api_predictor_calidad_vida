@@ -2,3 +2,4 @@ models_pickle/RandomForest.pkl
 */__pycache__
 /venv
 datacience_app.code-workspace
+models/RandomForestX3.joblib
