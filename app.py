@@ -3,7 +3,6 @@ from flask_cors import CORS
 from flasgger import Swagger
 from routes.routes import main as main_blueprint
 from config.swagger_config import swagger_template
-import numpy as np
 
 
 def create_app() -> Flask:
@@ -26,6 +25,4 @@ def create_app() -> Flask:
 
 if __name__ == "__main__":
     app = create_app()
-    #imprimit la version de numpy
-    print(f"Numpy version: {np.__version__}")
     app.run(debug=True, host="0.0.0.0", port=5000)

@@ -35,13 +35,11 @@ def cargar_modelo(nombre: str):
         CACHED_MODELS[nombre] = joblib.load(modelo_path)
     return CACHED_MODELS[nombre]
 
-
 def cargar_scaler(path: str = SCALER_FILE):
     """Carga el objeto de escalado preentrenado."""
     if not os.path.exists(path):
         raise FileNotFoundError(f"Scaler no encontrado en '{path}'")
     return joblib.load(path)
-
 
 def cargar_columnas(path: str = COLUMNS_FILE):
     """Carga las columnas esperadas por el modelo."""
@@ -75,6 +73,52 @@ def procesar_datos(datos: dict) -> pd.DataFrame:
 
     return df_scaled
 
+def cargar_importancias_csv(modelo_nombre: str) -> dict:
+    """
+    Carga las importancias de un modelo específico.
+    Retorna un diccionario con las importancias de las variables.
+    """
+    nombre_archivo = nombre_archivo_importances(modelo_nombre) 
+    importances_path = os.path.join(BASE_DIR, "resultados", f"{nombre_archivo}.csv")
+    if not os.path.exists(importances_path) :
+        return {}
+    
+    importances = pd.read_csv(importances_path).set_index("Feature")["Importance"].to_dict()
+
+    return importances
+
+def cargar_importancias_pkl(modelo_nombre: str) -> dict:
+    """
+    Carga las importancias de un modelo específico desde un archivo .pkl.
+    Retorna un diccionario con las importancias de las variables.
+    """
+    nombre_archivo = nombre_archivo_importances(modelo_nombre)
+    importances_path = os.path.join(BASE_DIR, "resultados", f"{nombre_archivo}.pkl")
+
+    if not os.path.exists(importances_path):
+        return {}
+
+    with open(importances_path, "rb") as f:
+        importances_df = pickle.load(f)
+
+    # ✅ Asegurar que es un DataFrame y convertir a diccionario
+    if isinstance(importances_df, pd.DataFrame):
+        return importances_df.set_index("Feature")["Importance"].to_dict()
+    else:
+        # En caso de que ya esté en forma de diccionario
+        return importances_df
+
+def nombre_archivo_importances(modelo_nombre: str) -> str:
+    """
+    Genera el nombre del archivo de importancias basado en el nombre del modelo.
+    """
+    if modelo_nombre == "RandomForestX3":
+        return "importancesX3_rf"
+    elif modelo_nombre == "XGBoostX3":
+        return "importancesX3_xgb"
+    elif modelo_nombre == "GradientBoostingX3":
+        return "importancesX3_gbr"
+
 # ===============================
 # Predicción
 # ===============================
@@ -87,10 +131,10 @@ def predecir_calidad_vida(datos: dict, modelo_nombre: str) -> dict:
     modelo = cargar_modelo(modelo_nombre)
     datos_preprocesados = procesar_datos(datos)
     prediccion = modelo.predict(datos_preprocesados)
-    
+    importancias = cargar_importancias_csv(modelo_nombre)
     return {
         "prediccion": float(prediccion[0]),  # ✅ también aquí
-        "importancia": {}
+        "importancia": importancias
     }
 
 def obtener_variables_test_pred ():

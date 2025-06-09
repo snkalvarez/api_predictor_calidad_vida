@@ -3,7 +3,8 @@ from marshmallow import ValidationError
 from config.schemas import PrediccionSchema
 from services.predictor import predecir_calidad_vida, obtener_variables_test_pred
 from services.tablacomparativa import read_resultados_tablacomparativa
-from services.importancias import cargar_importancias
+from services.dataRealPredic import data_real_predic_csv_path
+from services.dataRealPredic import cargar_real_predic_pkl
 import plotly.express as px
 import pandas as pd
 import os
@@ -37,7 +38,7 @@ def predict():
         in: query
         type: string
         required: true
-        description: Nombre del modelo a usar ( RandomForest, GradientBoosting, XGBoost, MlpRegressor )
+        description: Nombre del modelo a usar ( RandomForestX3, GradientBoostingX3, XGBoostX3, MlpRegressorX3)
       - in: body
         name: input
         required: true
@@ -93,21 +94,6 @@ def dataPrediciva():
     data = read_resultados_tablacomparativa()
     return jsonify({"mensaje": "ok" , "data":data})
 
-# get para obtener las importances .pkl
-@main.route("/importances", methods=["GET"])
-def importances():
-    """
-    Obtenemos las importancias de los modelos
-    ---
-    tags:
-      - Importancias
-    responses:
-      200:
-        description: Json con las importancias de los modelos
-    """
-    importances = cargar_importancias()
-    return jsonify({"mensaje": "ok", "importances": importances})
-
 # get para obterner la datapkl
 @main.route("/trainAndpredict", methods=["GET"])
 def data():
@@ -135,7 +121,7 @@ def plot_data():
         description: Json con los datos de la gráfica
     """
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Sube a raíz del proyecto
-    csv_path = os.path.join(base_dir, "datacsv", "resultadosTrainPred.csv")
+    csv_path = os.path.join(base_dir, "resultados", "resultadosRealPredX3_rf.csv")
     df = pd.read_csv(csv_path)
     try:
         df = pd.read_csv(csv_path)
@@ -158,3 +144,67 @@ def plot_data():
     )
 
     return jsonify(fig.to_dict())
+
+@main.route("/data_real_predic/csv", methods=["GET"])
+def data_real_predic_csv():
+  """
+  Obtenemos los datos reales y su predicción segun el modelo seleccionado
+  ---
+  tags:
+    - Datos
+  parameters:
+    - name: model
+      in: query
+      type: string
+      required: true
+      description: Nombre del modelo a usar ( RandomForestX3, GradientBoostingX3, XGBoostX3, MlpRegressorX3)
+  responses:
+    200:
+      description: Json con los datos reales y su predicción
+  """
+  try:
+    print("Entrando a data_real_predic")
+    model_name = request.args.get("model")
+    if not model_name:
+      return jsonify({"error": "Falta el nombre del modelo"}), 400
+
+    data = data_real_predic_csv_path(model_name)
+    return jsonify({"mensaje": "ok", "data": data})
+
+  except Exception as e:
+    return jsonify({
+        "error": "Error interno del servidor", 
+        "details": str(e)
+    }), 500
+  
+@main.route("/data_real_predic/pkl", methods=["GET"])
+def data_real_predic_pkl():
+  """
+  Obtenemos los datos reales y su predicción segun el modelo seleccionado
+  ---
+  tags:
+    - Datos
+  parameters:
+    - name: model
+      in: query
+      type: string
+      required: true
+      description: Nombre del modelo a usar ( RandomForestX3, GradientBoostingX3, XGBoostX3, MlpRegressorX3)
+  responses:
+    200:
+      description: Json con los datos reales y su predicción
+  """
+  try:
+    print("Entrando a data_real_predic")
+    model_name = request.args.get("model")
+    if not model_name:
+      return jsonify({"error": "Falta el nombre del modelo"}), 400
+
+    data = cargar_real_predic_pkl(model_name)
+    return jsonify({"mensaje": "ok", "data": data})
+
+  except Exception as e:
+    return jsonify({
+        "error": "Error interno del servidor", 
+        "details": str(e)
+    }), 500
