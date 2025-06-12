@@ -1,0 +1,43 @@
+{
+    "father_data": [
+        {
+            "father_lives_household": "Si",
+            "household_monthly_income": 1680355.7338421524
+        },
+        {
+            "father_lives_household": "No",
+            "household_monthly_income": 1271665.2631875551
+        },
+        {
+            "father_lives_household": "Fallecido",
+            "household_monthly_income": 1320435.1378353285
+        }
+    ],
+    "mother_data": [
+        {
+            "mother_lives_household": "Si",
+            "household_monthly_income": 1692675.0663729452
+        },
+        {
+            "mother_lives_household": "No",
+            "household_monthly_income": 1285480.9588031378
+        },
+        {
+            "mother_lives_household": "Fallecida",
+            "household_monthly_income": 1279136.6774047387
+        }
+    ],
+    "metadata": {
+        "y_labels": [
+            "Vive",
+            "No vive",
+            "Fallecido/a"
+        ],
+        "y_ticks": [
+            1,
+            2,
+            3
+        ],
+        "unidad_ingreso": "millones"
+    }
+}

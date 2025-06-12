@@ -5,6 +5,7 @@ from services.predictor import predecir_calidad_vida, obtener_variables_test_pre
 from services.tablacomparativa import read_resultados_tablacomparativa
 from services.dataRealPredic import data_real_predic_csv_path
 from services.dataRealPredic import cargar_real_predic_pkl
+from services.graficas import grafica_educacionpadres_vs_ingreso_hogar, grafica_educacionpresencia_padres_vs_ingreso_hogar, grafica_presenciapadres_vs_ingreso_hogar
 import plotly.express as px
 import pandas as pd
 import os
@@ -208,3 +209,70 @@ def data_real_predic_pkl():
         "error": "Error interno del servidor", 
         "details": str(e)
     }), 500
+  
+
+@main.route("/grafica/presenciapadresvsingreso", methods=["GET"])
+def grafica_presencia_padres_vs_ingreso_hogar():
+    """
+    Endpoint para obtener la gráfica de presencia de padres vs ingreso del hogar
+    ---
+    tags:
+      - Gráficas
+    responses:
+      200:
+        description: Gráfica de presencia de padres vs ingreso del hogar
+    """
+    try:
+      data = grafica_presenciapadres_vs_ingreso_hogar()
+
+      return jsonify(data)
+    
+    except Exception as e:
+        return jsonify({
+            "error": "Error interno del servidor", 
+            "details": str(e)
+        }), 500
+    
+@main.route("/grafica/educacionpadresvsingreso", methods=["GET"])
+def grafica_educacion_padres_vs_ingreso_hogar():
+    """
+    Endpoint para obtener la gráfica de nivel educativo de padres vs ingreso del hogar
+    ---
+    tags:
+      - Gráficas
+    responses:
+      200:
+        description: Gráfica de nivel educativo de padres vs ingreso del hogar
+    """
+    try:
+      data = grafica_educacionpadres_vs_ingreso_hogar()
+
+      return jsonify(data)
+    
+    except Exception as e:
+        return jsonify({
+            "error": "Error interno del servidor", 
+            "details": str(e)
+        }), 500
+    
+@main.route("/grafica/educacionpresenciapadresvsingreso", methods=["GET"])
+def grafica_educacion_presencia_padres_vs_ingreso_hogar():
+    """
+    Endpoint para obtener la gráfica de educacion y presencia de padres vs ingreso del hogar
+    ---
+    tags:
+      - Gráficas
+    responses:
+      200:
+        description: Gráfica de educacion y presencia de padres vs ingreso del hogar
+    """
+    try:
+      data = grafica_educacionpresencia_padres_vs_ingreso_hogar()
+
+      return jsonify(data)
+    
+    except Exception as e:
+        return jsonify({
+            "error": "Error interno del servidor", 
+            "details": str(e)
+        }), 500
