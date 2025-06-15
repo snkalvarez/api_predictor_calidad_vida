@@ -25,8 +25,14 @@ def grafica_educacionpadres_vs_ingreso_hogar():
 
     return datos
 
-def grafica_educacionpresencia_padres_vs_ingreso_hogar():
+def grafica_educacionpresencia_padre_vs_ingreso_hogar():
     with open(os.path.join(DATA_PATH, 'educacion_presencia_padre.json'), 'r') as f:
+        datos = json.load(f)
+
+    return datos
+
+def grafica_educacionpresencia_madre_vs_ingreso_hogar():
+    with open(os.path.join(DATA_PATH, 'educacion_presencia_madre.json'), 'r') as f:
         datos = json.load(f)
 
     return datos
