@@ -36,3 +36,21 @@ def grafica_educacionpresencia_madre_vs_ingreso_hogar():
         datos = json.load(f)
 
     return datos
+
+def grafica_ingreso_hogar_edad_segun_satisfaccioncontrabajo():
+    with open(os.path.join(DATA_PATH, 'ingreso_edad_satisfaccion.json'), 'r') as f:
+        datos = json.load(f)
+
+    return datos
+
+def grafica_ingreso_hogar_edadpromedio_segun_satisfaccioncontrabajo():
+    with open(os.path.join(DATA_PATH, 'ingreso_edadpromedio_satisfaccion_trabajo.json'), 'r') as f:
+        datos = json.load(f)
+
+    return datos
+
+def grafica_ingreso_hogar_satisfaccioncontrabajo_genero():
+    with open(os.path.join(DATA_PATH, 'ingreso_satisfaccion_trabajo_genero.json'), 'r') as f:
+        datos = json.load(f)
+
+    return datos

@@ -5,7 +5,7 @@ from services.predictor import predecir_calidad_vida, obtener_variables_test_pre
 from services.tablacomparativa import read_resultados_tablacomparativa
 from services.dataRealPredic import data_real_predic_csv_path
 from services.dataRealPredic import cargar_real_predic_pkl
-from services.graficas import grafica_educacionpadres_vs_ingreso_hogar, grafica_educacionpresencia_madre_vs_ingreso_hogar, grafica_educacionpresencia_padre_vs_ingreso_hogar, grafica_presenciapadres_vs_ingreso_hogar
+from services.graficas import grafica_educacionpadres_vs_ingreso_hogar, grafica_educacionpresencia_madre_vs_ingreso_hogar, grafica_educacionpresencia_padre_vs_ingreso_hogar, grafica_ingreso_hogar_edad_segun_satisfaccioncontrabajo, grafica_ingreso_hogar_edadpromedio_segun_satisfaccioncontrabajo, grafica_ingreso_hogar_satisfaccioncontrabajo_genero, grafica_presenciapadres_vs_ingreso_hogar
 import plotly.express as px
 import pandas as pd
 import os
@@ -292,6 +292,71 @@ def grafica_educacion_presencia_madre_vs_ingreso_hogar():
       data = grafica_educacionpresencia_madre_vs_ingreso_hogar()
 
       return jsonify(data)
+    
+    except Exception as e:
+        return jsonify({
+            "error": "Error interno del servidor", 
+            "details": str(e)
+        }), 500
+    
+@main.route("/grafica/ingresoedadsegunsatisfacciontrabajo", methods=["GET"])
+def ingreso_hogar_edad_segun_satisfaccioncontrabajo():
+    """
+    Endpoint para obtener la gráfica de ingreso del hogar y edad según satisfacción con el trabajo
+    ---
+    tags:
+      - Gráficas
+    responses:
+      200:
+        description: Gráfica de ingreso del hogar y edad según satisfacción con el trabajo
+    """
+    try:
+        data = grafica_ingreso_hogar_edad_segun_satisfaccioncontrabajo()
+        return jsonify(data)
+    
+    except Exception as e:
+        return jsonify({
+            "error": "Error interno del servidor", 
+            "details": str(e)
+        }), 500
+    
+# metodo para ingreso_edadpromedio_satisfaccion_trabajo
+@main.route("/grafica/ingresoedadpromediosegunsatisfacciontrabajo", methods=["GET"])
+def ingreso_hogar_edadpromedio_segun_satisfaccioncontrabajo():
+    """
+    Endpoint para obtener la gráfica de ingreso del hogar y edad promedio según satisfacción con el trabajo
+    ---
+    tags:
+      - Gráficas
+    responses:
+      200:
+        description: Gráfica de ingreso del hogar y edad promedio según satisfacción con el trabajo
+    """
+    try:
+        data = grafica_ingreso_hogar_edadpromedio_segun_satisfaccioncontrabajo()
+        return jsonify(data)
+    
+    except Exception as e:
+        return jsonify({
+            "error": "Error interno del servidor", 
+            "details": str(e)
+        }), 500
+    
+#ruta para grafica_ingreso_hogar_satisfaccioncontrabajo_genero
+@main.route("/grafica/ingresosatisfacciontrabajogenero", methods=["GET"])
+def ingreso_hogar_satisfaccioncontrabajo_genero():
+    """
+    Endpoint para obtener la gráfica de ingreso del hogar y satisfacción con el trabajo según género
+    ---
+    tags:
+      - Gráficas
+    responses:
+      200:
+        description: Gráfica de ingreso del hogar y satisfacción con el trabajo según género
+    """
+    try:
+        data = grafica_ingreso_hogar_satisfaccioncontrabajo_genero()
+        return jsonify(data)
     
     except Exception as e:
         return jsonify({
