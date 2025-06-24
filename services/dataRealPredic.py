@@ -17,21 +17,26 @@ def data_real_predic_csv_path(modelo_nombre: str) -> str:
 
     return df.to_dict(orient="records")
 
-def cargar_real_predic_pkl(modelo_nombre: str) -> dict:
+def cargar_real_predic_pkl(modelo_nombre: str, num_muestras: int = 1000) -> dict:
     """
     Carga los datos reales y sus predicciones desde un archivo .pkl.
     Retorna un diccionario con los datos.
     """
     nombre_archivo = nombre_archivo_real_predic(modelo_nombre)
-    if not os.path.exists(os.path.join(RESULTADOS_PATH, f"{nombre_archivo}.pkl")):
+    path_archivo = os.path.join(RESULTADOS_PATH, f"{nombre_archivo}.pkl")
+    
+    if not os.path.exists(path_archivo):
         raise FileNotFoundError(f"No se encontró el archivo {nombre_archivo}.pkl en {RESULTADOS_PATH}")
     
-    with open(os.path.join(RESULTADOS_PATH, f"{nombre_archivo}.pkl"), "rb") as f:
+    with open(path_archivo, "rb") as f:
         data = pickle.load(f)
-    if isinstance(data, pd.DataFrame):
-        return data.to_dict(orient="records")
-    else:
-        return data
+        df = pd.DataFrame(data)
+
+        # Solo se realiza el muestreo si el DataFrame tiene más filas que num_muestras
+        if len(df) > num_muestras:
+            df = df.sample(num_muestras, random_state=42)
+
+        return df.to_dict(orient="records")
 
 def nombre_archivo_real_predic(modelo_nombre: str) -> str:
     """
