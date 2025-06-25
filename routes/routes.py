@@ -6,8 +6,6 @@ from services.tablacomparativa import read_resultados_tablacomparativa
 from services.dataRealPredic import data_real_predic_csv_path
 from services.dataRealPredic import cargar_real_predic_pkl
 from services.graficas import grafica_educacionpadres_vs_ingreso_hogar, grafica_educacionpresencia_madre_vs_ingreso_hogar, grafica_educacionpresencia_padre_vs_ingreso_hogar, grafica_ingreso_hogar_edad_segun_satisfaccioncontrabajo, grafica_ingreso_hogar_edadpromedio_segun_satisfaccioncontrabajo, grafica_ingreso_hogar_satisfaccioncontrabajo_genero, grafica_presenciapadres_vs_ingreso_hogar
-import pandas as pd
-import os
 
 main = Blueprint('main', __name__)
 
@@ -108,42 +106,6 @@ def data():
     """
     data = obtener_variables_test_pred()
     return jsonify({"mensaje": "ok", "data": data})
-
-@main.route('/plot-data')
-def plot_data():
-    """
-    Endpoint para obtener los datos de la gráfica
-    ---
-    tags:
-      - Gráficas
-    responses:
-      200:
-        description: Json con los datos de la gráfica
-    """
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Sube a raíz del proyecto
-    csv_path = os.path.join(base_dir, "resultados", "resultadosRealPredX3_rf.csv")
-    df = pd.read_csv(csv_path)
-    try:
-        df = pd.read_csv(csv_path)
-    except FileNotFoundError:
-        return jsonify({"error": f"No se encontró el archivo en {csv_path}"}), 404
-
-    if not {"y_real", "y_predicho"}.issubset(df.columns):
-        return jsonify({"error": "CSV debe contener columnas 'y_real' y 'y_predicho'"}), 400
-
-    fig = px.scatter(df, x="y_real", y="y_predicho",
-                     title="Random Forest - y real vs y predicho",
-                     labels={"y_real": "Valor real", "y_predicho": "Valor predicho"},
-                     opacity=0.6)
-
-    fig.add_shape(
-        type="line",
-        x0=df["y_real"].min(), y0=df["y_real"].min(),
-        x1=df["y_real"].max(), y1=df["y_real"].max(),
-        line=dict(color="Red", dash="dash"),
-    )
-
-    return jsonify(fig.to_dict())
 
 @main.route("/data_real_predic/csv", methods=["GET"])
 def data_real_predic_csv():
