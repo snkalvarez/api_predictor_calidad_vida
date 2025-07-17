@@ -79,6 +79,7 @@ numpy==2.0.2
 pandas==2.2.3
 scikit-learn===1.6.1
 xgboost==3.0.2
+lightgbm==4.6.0
 ~~~
 
 - Configurar el archivo `app.py` (si aplica)

@@ -36,7 +36,7 @@ def predict():
         in: query
         type: string
         required: true
-        description: Nombre del modelo a usar ( RandomForestX3, GradientBoostingX3, XGBoostX3, MlpRegressorX3)
+        description: Nombre del modelo a usar ( LightGBM, GradientBoosting, XGBoost, MlpRegressor)
       - in: body
         name: input
         required: true

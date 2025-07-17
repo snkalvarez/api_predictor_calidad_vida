@@ -5,10 +5,6 @@ import pickle
 import xgboost as xgb
 import json
 
- # version sklearn:
-from sklearn import __version__ as sklearn_version
-from xgboost import __version__ as xgb_version
-
 # ===============================
 # Configuración y constantes
 # ===============================
@@ -82,42 +78,20 @@ def cargar_importancias_csv(modelo_nombre: str) -> dict:
     importances_path = os.path.join(BASE_DIR, "resultados", f"{nombre_archivo}.csv")
     if not os.path.exists(importances_path) :
         return {}
-    
     importances = pd.read_csv(importances_path).set_index("Feature")["Importance"].to_dict()
 
     return importances
-
-def cargar_importancias_pkl(modelo_nombre: str) -> dict:
-    """
-    Carga las importancias de un modelo específico desde un archivo .pkl.
-    Retorna un diccionario con las importancias de las variables.
-    """
-    nombre_archivo = nombre_archivo_importances(modelo_nombre)
-    importances_path = os.path.join(BASE_DIR, "resultados", f"{nombre_archivo}.pkl")
-
-    if not os.path.exists(importances_path):
-        return {}
-
-    with open(importances_path, "rb") as f:
-        importances_df = pickle.load(f)
-
-    # ✅ Asegurar que es un DataFrame y convertir a diccionario
-    if isinstance(importances_df, pd.DataFrame):
-        return importances_df.set_index("Feature")["Importance"].to_dict()
-    else:
-        # En caso de que ya esté en forma de diccionario
-        return importances_df
 
 def nombre_archivo_importances(modelo_nombre: str) -> str:
     """
     Genera el nombre del archivo de importancias basado en el nombre del modelo.
     """
-    if modelo_nombre == "RandomForestX3":
-        return "importancesX3_rf"
-    elif modelo_nombre == "XGBoostX3":
-        return "importancesX3_xgb"
-    elif modelo_nombre == "GradientBoostingX3":
-        return "importancesX3_gbr"
+    if modelo_nombre == "LightGBM":
+        return "importances_lgb"
+    elif modelo_nombre == "XGBoost":
+        return "importances_xgb"
+    elif modelo_nombre == "GradientBoosting":
+        return "importances_gbr"
 
 # ===============================
 # Predicción
