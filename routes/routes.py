@@ -4,7 +4,6 @@ from config.schemas import PrediccionSchema
 from services.predictor import predecir_calidad_vida, obtener_variables_test_pred
 from services.tablacomparativa import read_resultados_tablacomparativa
 from services.dataRealPredic import data_real_predic_csv_path
-from services.dataRealPredic import cargar_real_predic_pkl
 from services.graficas import grafica_educacionpadres_vs_ingreso_hogar, grafica_educacionpresencia_madre_vs_ingreso_hogar, grafica_educacionpresencia_padre_vs_ingreso_hogar, grafica_ingreso_hogar_edad_segun_satisfaccioncontrabajo, grafica_ingreso_hogar_edadpromedio_segun_satisfaccioncontrabajo, grafica_ingreso_hogar_satisfaccioncontrabajo_genero, grafica_presenciapadres_vs_ingreso_hogar
 
 main = Blueprint('main', __name__)
@@ -119,7 +118,7 @@ def data_real_predic_csv():
       in: query
       type: string
       required: true
-      description: Nombre del modelo a usar ( RandomForestX3, GradientBoostingX3, XGBoostX3, MlpRegressorX3)
+      description: Nombre del modelo a usar ( LightGBM, GradientBoosting, XGBoost, MlpRegressor)
   responses:
     200:
       description: Json con los datos reales y su predicción
@@ -138,48 +137,6 @@ def data_real_predic_csv():
         "error": "Error interno del servidor", 
         "details": str(e)
     }), 500
-  
-@main.route("/data_real_predic/pkl", methods=["GET"])
-def data_real_predic_pkl():
-    """
-    Obtenemos los datos reales y su predicción según el modelo seleccionado
-    ---
-    tags:
-      - Datos
-    parameters:
-      - name: model
-        in: query
-        type: string
-        required: true
-        description: Nombre del modelo a usar (RandomForestX3, GradientBoostingX3, XGBoostX3, MlpRegressorX3)
-      - name: num_muestras
-        in: query
-        type: integer
-        required: false
-        description: Número de muestras a retornar (por defecto 25000)
-    responses:
-      200:
-        description: Json con los datos reales y su predicción
-    """
-    try:
-        print("Entrando a data_real_predic")
-        model_name = request.args.get("model")
-        if not model_name:
-            return jsonify({"error": "Falta el nombre del modelo"}), 400
-
-        # Obtener num_muestras opcionalmente
-        num_muestras = request.args.get("num_muestras", default=25000, type=int)
-
-        data = cargar_real_predic_pkl(model_name, num_muestras=num_muestras)
-        return jsonify({"mensaje": "ok", "data": data})
-
-    except Exception as e:
-        return jsonify({
-            "error": "Error interno del servidor",
-            "details": str(e)
-        }), 500
-
-  
 
 @main.route("/grafica/presenciapadresvsingreso", methods=["GET"])
 def grafica_presencia_padres_vs_ingreso_hogar():
