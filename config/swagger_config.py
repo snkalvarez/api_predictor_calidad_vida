@@ -19,7 +19,7 @@ swagger_template = {
     "definitions": {
         "Preguntas": {
             "type": "object",
-            "required": ["mother_education_level","father_education_level","life_satisfaction_level","job_satisfaction_level","per_capita_income","expenditure_unit_monthly_income","household_monthly_income","household_size","mother_lives_household","father_lives_household","current_age","cognitive_ability","income_satisfaction_level","life_worthwhileness","hand_grip_ability","mobility_ability","vision_ability","speech_ability","hearing_ability","has_chronic_disease","general_health_status","other_health_services","student_health_insurance","hospitalization_surgery_policy","eps_complementary_health_plan","private_health_insurance","health_insurance_affiliation","gender","self_care_ability","health_issue_last_30_days"],
+            "required": ["mother_education_level","father_education_level","life_satisfaction_level","job_satisfaction_level","per_capita_income","expenditure_unit_monthly_income","household_size","mother_lives_household","father_lives_household","current_age","cognitive_ability","income_satisfaction_level","life_worthwhileness","hand_grip_ability","mobility_ability","vision_ability","speech_ability","hearing_ability","has_chronic_disease","general_health_status","other_health_services","student_health_insurance","hospitalization_surgery_policy","eps_complementary_health_plan","private_health_insurance","health_insurance_affiliation","gender","self_care_ability","health_issue_last_30_days"],
             "properties": {
                 "mother_education_level":{
                     "type": "string",
@@ -49,11 +49,6 @@ swagger_template = {
                 "expenditure_unit_monthly_income":{
                     "type": "double",
                     "description": "ingreso mensual por unidad de gasto",
-                    "example": 2424166.667,
-                },
-                "household_monthly_income":{
-                    "type": "double",
-                    "description": "ingreso mensual del hogar",
                     "example": 2424166.667,
                 },
                 "household_size":{

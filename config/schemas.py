@@ -8,7 +8,6 @@ class PrediccionSchema(Schema):
     job_satisfaction_level = fields.Integer(required=True, validate=validate.Range(min=0, max=10))
     per_capita_income = fields.Float(required=True)
     expenditure_unit_monthly_income = fields.Float(required=True)
-    household_monthly_income = fields.Float(required=True)
     household_size = fields.Integer(required=True)
     mother_lives_household = fields.String(required=True, validate=validate.OneOf(["Si", "No", "Fallecida"]))
     father_lives_household = fields.String(required=True, validate=validate.OneOf(["Si", "No", "Fallecido"]))
