@@ -15,7 +15,7 @@ swagger_template = {
         }
     },
     "basePath": "/",
-    "schemes": ["http"],
+    "schemes": ["https"],
     "definitions": {
         "Preguntas": {
             "type": "object",
