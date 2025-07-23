@@ -21,7 +21,7 @@ swagger_config = {
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+    CORS(app, resources={r"/*": {"origins": "*"}})
     Swagger(app, template=swagger_template, config=swagger_config )
     app.register_blueprint(main_blueprint)
     return app
