@@ -44,7 +44,7 @@ def data_real_predic_csv():
       in: query
       type: string
       required: true
-      description: Nombre del modelo a usar ( LightGBM, GradientBoosting, XGBoost, MlpRegressor)
+      description: Nombre del modelo a usar ( LightGBM, GradientBoosting, XGBRegressor, MlpRegressor)
   responses:
     200:
       description: Json con los datos reales y su predicción

@@ -47,7 +47,7 @@ def nombre_archivo_real_predic(modelo_nombre: str) -> str:
     """
     if modelo_nombre == "LightGBM":
         return "resultadosRealPred_lgb"
-    elif modelo_nombre == "XGBoost":
+    elif modelo_nombre == "XGBRegressor":
         return "resultadosRealPred_xgb"
     elif modelo_nombre == "GradientBoosting":
         return "resultadosRealPred_gbr"

@@ -79,7 +79,7 @@ def nombre_archivo_importances(modelo_nombre: str) -> str:
     """
     if modelo_nombre == "LightGBM":
         return "importances_lgb"
-    elif modelo_nombre == "XGBoost":
+    elif modelo_nombre == "XGBRegressor":
         return "importances_xgb"
     elif modelo_nombre == "GradientBoosting":
         return "importances_gbr"
