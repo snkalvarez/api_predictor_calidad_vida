@@ -1,43 +1,40 @@
 {
-    "father_data": [
+    "series": [
         {
-            "father_lives_household": "Si",
-            "household_monthly_income": 1680355.7338421524
+            "name": "Padre vive",
+            "categories": [
+                "Si",
+                "No",
+                "Fallecido"
+            ],
+            "values": [
+                1717482.13767006,
+                1301004.9179910736,
+                1353201.453304229
+            ]
         },
         {
-            "father_lives_household": "No",
-            "household_monthly_income": 1271665.2631875551
-        },
-        {
-            "father_lives_household": "Fallecido",
-            "household_monthly_income": 1320435.1378353285
+            "name": "Madre vive",
+            "categories": [
+                "Si",
+                "No",
+                "Fallecido"
+            ],
+            "values": [
+                1721772.4918243322,
+                1315940.176364886,
+                1310956.4587024068
+            ]
         }
     ],
-    "mother_data": [
-        {
-            "mother_lives_household": "Si",
-            "household_monthly_income": 1692675.0663729452
-        },
-        {
-            "mother_lives_household": "No",
-            "household_monthly_income": 1285480.9588031378
-        },
-        {
-            "mother_lives_household": "Fallecida",
-            "household_monthly_income": 1279136.6774047387
-        }
-    ],
-    "metadata": {
-        "y_labels": [
-            "Vive",
-            "No vive",
-            "Fallecido/a"
-        ],
-        "y_ticks": [
-            1,
-            2,
-            3
-        ],
-        "unidad_ingreso": "millones"
+    "meta": {
+        "title": "Impacto de la Presencia de Padre/Madre en el Ingreso del Hogar",
+        "xaxis": "Situación",
+        "yaxis": "Ingreso Promedio del Hogar",
+        "categories_order": [
+            "Si",
+            "No",
+            "Fallecido"
+        ]
     }
 }
