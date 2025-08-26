@@ -1,66 +1,43 @@
 {
-    "education_labels": [
-        "Alg Prim",
-        "All Prim",
-        "Alg Sec",
-        "All Secun",
-        "Alg Tec/tecno",
-        "All Tec/Tecno",
-        "Alg Uni",
-        "All Uni",
-        "Ninguno",
-        "No sabe"
-    ],
-    "father_education": {
-        "education_level": [
-            "PrimIncomp",
-            "PrimComp",
-            "SecIncomp",
-            "SecComp",
-            "TecIncomp",
-            "TecComp",
-            "UnivIncomp",
-            "UnivComp",
-            "Ninguno",
-            "NSNC"
-        ],
-        "income": [
-            1249379.5925568978,
-            1504634.4755770308,
-            1538749.3148723652,
-            1804474.6220891222,
-            1969657.2919713869,
-            2055478.1248888986,
-            2186347.7088361084,
-            2287479.6880371342,
-            1057291.1002170518,
-            1177480.9931488845
-        ]
-    },
-    "mother_education": {
-        "education_level": [
-            "PrimIncomp",
-            "PrimComp",
-            "SecIncomp",
-            "SecComp",
-            "TecIncomp",
-            "TecComp",
-            "UnivIncomp",
-            "UnivComp",
-            "Ninguno",
-            "NSNC"
-        ],
-        "income": [
-            1274715.1557168418,
-            1479110.3922303254,
-            1508446.4676528233,
-            1770300.9808437952,
-            1729077.0598296218,
-            1925454.8545031534,
-            2237134.4711107067,
-            2280123.68760066,
-            1034108.2439020306,
-            1130468.9612217841
-        ]
-    }
+  "categories": [
+    "Ninguno",
+    "NSNC",
+    "PrimIncomp",
+    "PrimComp",
+    "SecIncomp",
+    "SecComp",
+    "TecIncomp",
+    "TecComp",
+    "UnivIncomp",
+    "UnivComp"
+  ],
+  "father": [
+    1071675.9346043724,
+    1198051.8278519763,
+    1272890.286279268,
+    1543413.3934991246,
+    1575187.97537929,
+    1877475.47339475,
+    2051646.7785719999,
+    2172360.175949208,
+    2339182.296935598,
+    2465829.84051965
+  ],
+  "mother": [
+    1050778.4183517292,
+    1148579.9195430928,
+    1295765.7244989807,
+    1517895.3916292875,
+    1564752.3913050229,
+    1837327.6163552427,
+    1815863.5010234418,
+    2092868.9050803126,
+    2375509.6410256797,
+    2403145.2945476384
+  ],
+  "labels": {
+    "x": "Nivel Educativo",
+    "y": "Ingreso Promedio del Hogar (millones)",
+    "title": "Impacto de la Educación del Padre y la Madre en los Ingresos del Hogar"
+  }
 }
